@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const cheerio = require("cheerio");
 const {baseUrl, baseApi} = require("../constants/urls");
-const replaceMangaPage = "https://komiku.id/manga/";
+const replaceMangaPage = "https://komiku.org/manga/";
 const AxiosService = require("../helpers/axiosService");
 
 // manga popular ----Ignore this for now --------
@@ -34,7 +34,7 @@ router.get("/manga/page/:pagenumber", async (req, res) => {
         title = $(el).find(".kan > a").find("h3").text().trim();
         endpoint = $(el).find("a").attr("href").replace(replaceMangaPage, "");
         type = $(el).find(".bgei > a").find(".tpe1_inf > b").text();
-        updated_on = $(el).find(".kan > span").text().split("• ")[1].trim();
+        updated_on = $(el).find(".kan > .judul2").text().split("|")[1].trim();
         thumb = $(el).find(".bgei > a").find("img").attr("src");
         chapter = $(el)
           .find("div.kan > div:nth-child(5) > a > span:nth-child(2)")
@@ -60,6 +60,7 @@ router.get("/manga/page/:pagenumber", async (req, res) => {
       manga_list: [],
     });
   } catch (err) {
+    console.log(err);
     res.send({
       status: false,
       message: err,
