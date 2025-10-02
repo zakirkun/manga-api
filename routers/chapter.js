@@ -13,7 +13,7 @@ router.get("/", (req, res) => {
 router.get("/:slug", async (req, res) => {
   const slug = req.params.slug;
   try {
-    const response = await AxiosService(`ch/${slug}/`);
+    const response = await AxiosService(`${slug}/`);
     // const response = await axios.get(`https://komikcast.id/${slug}`)
     const $ = cheerio.load(response.data);
     const content = $("#article");
